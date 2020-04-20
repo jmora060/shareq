@@ -1,5 +1,5 @@
 var LoginRouter = require('express').Router();
-var knex = require('../db');
+var knex = require('../knex');
 var axios = require('axios');
 const qs = require('querystring')
 
@@ -8,7 +8,7 @@ LoginRouter.get('/create', async function(req, res){
     res.redirect('https://accounts.spotify.com/authorize' +
             '?response_type=code' +
             '&client_id=' + process.env.CLIENT_ID +
-            '&scope=' + encodeURIComponent('playlist-modify-private user-read-private') +
+            '&scope=' + encodeURIComponent('user-read-private user-read-currently-playing') +
             '&redirect_uri=' + encodeURIComponent('http://localhost:8000/login/callback') +
             '&state=' + randomString
             );
@@ -43,7 +43,6 @@ LoginRouter.get('/callback', async function(req, res) {
             .catch(err => {
                 throw(err)
             })
-
         console.log(tokenData)
 
         // get userdata
@@ -67,10 +66,11 @@ LoginRouter.get('/callback', async function(req, res) {
                 room: newQueue,
                 access_token: tokenData.access_token,
                 refresh_token: tokenData.refresh_token,
-                created_by: userData.id
+                created_by: userData.id,
+                token_expires_at: Date.now() + 3600000
             })
             .catch(err => {throw(err)})
-        console.log(newData)
+
 
         // save data to session (in db)
         req.session.queue = newQueue

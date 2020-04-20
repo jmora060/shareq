@@ -1,5 +1,5 @@
 var queueRouter = require('express').Router();
-var knex = require('../db')
+var knex = require('../knex')
 
 queueRouter.get('/q/:queue', function(req, res){
     knex.select('').table('queues').where('room', '=', req.params.queue)
@@ -9,16 +9,7 @@ queueRouter.get('/q/:queue', function(req, res){
 });
 
 queueRouter.get('/token', function(req, res) {
-    res.send(global.getToken())
-})
-
-queueRouter.get('/upvote/:songID', function(req, res){
-    knex('songs').where('id', '=', req.params.songID).increment('votes', 1).returning('votes')
-        .then(data => res.send({
-            songID: Number(req.params.songID),
-            votes: data[0]
-        }))
-        .catch(err => res.sendStatus(404))
+    res.send(clientAccessToken)
 })
 
 module.exports = queueRouter;

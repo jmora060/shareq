@@ -15,27 +15,27 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-export default function Track (props) {
-    const track = props.track;
+export default function Track ({track, upVote, downVote}) {
     const classes = useStyles();
+    const data = track.data;
 
     return (
         <Grid item container className={classes.root}>
-            <Grid item xs={9}>
-                {track.id} 
+            <Grid item xs={8}>
+                {data.name} 
             </Grid>
             <Grid item xs={1}>
-                <IconButton onClick={() => props.upVote(track.id)}>
+                <IconButton onClick={() => upVote(track.id)}>
                     <ArrowUpwardIcon fontSize="small"/>
                 </IconButton>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
                 <Typography variant="h4" align="center">
                     {track.votes}
                 </Typography>
             </Grid>
             <Grid item xs={1}>
-               <IconButton onClick={() => props.downVote(track.id)}>
+               <IconButton onClick={() => downVote(track.id)}>
                     <ArrowDownwardIcon fontSize="small"/>
                 </IconButton>
             </Grid>

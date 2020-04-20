@@ -1,10 +1,11 @@
 // Custom React Hook for sockets
 import {useState, useEffect} from 'react'
 import io from 'socket.io-client'
+import {backendIP} from '../constants.json'
 
 export default function useSocket (queue) {
     // initial value is function to prevent running the function on every
-    const [socket] = useState(() => io(`http://localhost:8000?queue=${queue}`))
+    const [socket] = useState(() => io(`http://${backendIP}?queue=${queue}`))
     const [tracks, setTracks] = useState([])
 
     useEffect(() => { 
@@ -34,6 +35,10 @@ export default function useSocket (queue) {
                 })
             })
         })
+
+        socket.on('newsong', (data) => {
+            setTracks((tracks) => [...tracks, data])
+        })
         
         // run function when component unmounts or socket changes
         return () => {
@@ -42,8 +47,9 @@ export default function useSocket (queue) {
         }
     }, []) // empty dependency array means run useEffect once
 
-    function addSong() {
-        console.log("addedSong")
+    function addSong(song) {
+        // add song
+        socket.emit('addsong', {song})
     }
     
     function upVote(songID) {

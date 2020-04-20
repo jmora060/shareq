@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-export default function Search(){    
+export default function Search( {addSong} ){    
     const [searchOptions, setSearchOptions] = React.useState();
     const [clientToken, setClientToken] = React.useState();
 
@@ -29,7 +29,6 @@ export default function Search(){
 
     function handleInputChange(event, value, reason) {
         if(value === '' || reason !== 'input'){
-            console.log('skipped')
             setSearchOptions([])
             return undefined;
         }
@@ -51,8 +50,7 @@ export default function Search(){
 
     function handleChange(event, value) {
         if(value) {
-            console.log(value)
-            // enter into queue
+            addSong(value)
         }
     }
     
