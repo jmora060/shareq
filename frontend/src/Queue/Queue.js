@@ -22,7 +22,7 @@ export default function Queue(){
         <>
             <Search addSong={addSong}/>
             {
-                tracks.length === 0 ? <h3>Add songs to the queue!</h3> :
+                tracks.length === 0 ? <h3>Queue is empty :( Add some jams :D !!</h3> :
                 <Grid container direction="column" justify="flex-start"  spacing={2}>
                     {tracks.sort((a, b) => b.votes - a.votes)
                         .map((track) => {

@@ -1,5 +1,5 @@
 var queueRouter = require('express').Router();
-var knex = require('../knex')
+var knex = require('../utils/knex')
 
 queueRouter.get('/q/:queue', function(req, res){
     knex.select('').table('queues').where('room', '=', req.params.queue)
@@ -8,8 +8,11 @@ queueRouter.get('/q/:queue', function(req, res){
         .catch(err => res.sendStatus(404))
 });
 
+// get 
+
+// move to sockets when connected
 queueRouter.get('/token', function(req, res) {
-    res.send(clientAccessToken)
+    res.send(global.clientAccessToken)
 })
 
 module.exports = queueRouter;

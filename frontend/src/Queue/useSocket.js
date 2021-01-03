@@ -39,6 +39,15 @@ export default function useSocket (queue) {
         socket.on('newsong', (data) => {
             setTracks((tracks) => [...tracks, data])
         })
+            
+        // fix for length < 1 ??? what?
+        socket.on('topQueued', (id) => {
+            console.log('topqueued')
+            setTracks((tracks) => {
+                const result = tracks.filter(track => track.id === id)
+                return result
+            })
+        }) 
         
         // run function when component unmounts or socket changes
         return () => {

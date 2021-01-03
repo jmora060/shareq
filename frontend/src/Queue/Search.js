@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   }));
 
 export default function Search( {addSong} ){    
-    const [searchOptions, setSearchOptions] = React.useState();
+    const [searchOptions, setSearchOptions] = React.useState([]);
     const [clientToken, setClientToken] = React.useState();
 
     React.useEffect(() => {
@@ -49,6 +49,8 @@ export default function Search( {addSong} ){
     }
 
     function handleChange(event, value) {
+        console.log('change', value)
+        console.log('event', event)
         if(value) {
             addSong(value)
         }
@@ -59,12 +61,10 @@ export default function Search( {addSong} ){
     return (
         <Autocomplete
             id="free-solo-demo"
-            freeSolo
-            autoSelect
+            freeSolo={true}
             onInputChange={handleInputChange}
             options={searchOptions}
-            getOptionLabel={option => option.name}
-            filterOptions={(x)=>x}
+            getOptionLabel={(option) => option.name}
             onChange={handleChange}
             renderInput={params => (
                 <TextField {...params}
